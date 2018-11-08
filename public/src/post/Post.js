@@ -52,10 +52,14 @@ export default class Post extends Component {
     if (this.state.initialized) { 
       // let post = this.state.posts.post[0]; 
       if (this.state.posts.length > 0) {
-        console.log("!!", this.state.posts[0].fields.title)
         this.state.posts.forEach((post, i) => {
           postList.push(
-            <Content key={i} title={post.fields.title} date={post.fields.date} metaDescription={post.fields.metaDescription} />
+            <Content key={i} 
+            id={post.sys.id}
+            title={post.fields.title} 
+            date={post.fields.date} 
+            slug={post.fields.slug} 
+            metaDescription={post.fields.metaDescription} />
           );
         });
         return (

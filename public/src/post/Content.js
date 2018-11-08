@@ -4,7 +4,7 @@ export default class Content extends Component {
   render() {
     return (
       <article>
-        <h2>Title: {this.props.title}</h2>
+        <h2><a href={"posts/"+this.props.id+"/"+this.props.slug}>{this.props.title}</a></h2>
         <p>{this.props.date}</p>
         <p>{this.props.metaDescription}</p>
       </article>

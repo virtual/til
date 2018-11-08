@@ -17,8 +17,8 @@ const client = contentful.createClient({
   accessToken: ACCESS_TOKEN
 })
 
-console.log(chalk.green.bold('\nWelcome to the Contentful JS Boilerplate\n'))
-console.log('This is a simplified example to demonstrate the usage of the Contentful CDA\n')
+// console.log(chalk.green.bold('\nWelcome to the Contentful JS Boilerplate\n'))
+// console.log('This is a simplified example to demonstrate the usage of the Contentful CDA\n')
 
 // Entry point of the boilerplate, called at the end.
 function runBoilerplate () {
@@ -71,18 +71,16 @@ function displayEntries (contentTypes) {
   }))
 }
 
-app.get("/", function(req, res, next) {
-  res.send("connected!");
-}); 
+// app.get("/", function(req, res, next) {
+//   res.send("connected!");
+// }); 
 
 app.get('/posts', function(req, res, next) {
-  console.log("Post")
   var reqtype = { 
     sys: {
       id: 'post'
     }
   }
-  // console.log(displayEntries(['Post']).then(displayEntries()));
   fetchEntriesForContentType(reqtype)
   .then((entries) => {
     console.log(entries)
