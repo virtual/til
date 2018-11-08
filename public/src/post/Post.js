@@ -38,7 +38,7 @@ export default class Post extends Component {
       if (PostsObj.data !== undefined) { 
         this.setState({ 
           initialized: true,
-          Posts: PostsObj.data
+          posts: PostsObj.data
         });
       }  else {
         console.log('undefined');
@@ -47,14 +47,25 @@ export default class Post extends Component {
   }
 
   render() {
+
+    let postList = []; 
     if (this.state.initialized) { 
       // let post = this.state.posts.post[0]; 
-      return (
-        <div> 
-         POSTY
-         <Content/>
-        </div>
-      );
+      if (this.state.posts.length > 0) {
+        console.log("!!", this.state.posts[0].fields.title)
+        this.state.posts.forEach((post, i) => {
+          postList.push(
+            <Content key={i} title={post.fields.title} date={post.fields.date} metaDescription={post.fields.metaDescription} />
+          );
+        });
+        return (
+          <div> 
+          
+          {postList}
+          
+          </div>
+        );
+      }
     } else {
       return(
       <div>Loading...</div>
