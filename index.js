@@ -1,13 +1,14 @@
 'use strict'
-
+let express = require('express');
+let app = express();
 const contentful = require('contentful')
 const chalk = require('chalk')
 const Table = require('cli-table2')
 
 require('dotenv').config();
 
-const SPACE_ID = process.env.SPACE_ID
-const ACCESS_TOKEN = process.env.ACCESS_TOKEN
+const SPACE_ID = process.env.CONTENTFUL_SPACE_ID
+const ACCESS_TOKEN = process.env.CONTENTFUL_ACCESS_TOKEN
 
 const client = contentful.createClient({
   // This is the space ID. A space is like a project folder in Contentful terms
@@ -64,19 +65,30 @@ function displayEntries (contentTypes) {
   return Promise.all(contentTypes.map((contentType) => {
     return fetchEntriesForContentType(contentType)
     .then((entries) => {
-      console.log(`\These are the first 100 Entries for Content Type ${chalk.cyan(contentType.name)}:\n`)
-
-      // Display a table with Entry information
-      const table = new Table({
-        head: ['Id', 'Title']
-      })
-      entries.forEach((entry) => {
-        table.push([entry.sys.id, entry.fields[contentType.displayField] || '[empty]'])
-      })
-      console.log(table.toString())
+      console.log(entries)
+ 
     })
   }))
 }
+
+app.get("/", function(req, res, next) {
+  res.send("connected!");
+}); 
+
+app.get('/posts', function(req, res, next) {
+  console.log("Post")
+  var reqtype = { 
+    sys: {
+      id: 'post'
+    }
+  }
+  // console.log(displayEntries(['Post']).then(displayEntries()));
+  fetchEntriesForContentType(reqtype)
+  .then((entries) => {
+    console.log(entries)
+    res.json(entries);
+  });
+});
 
 // Load all Content Types in your space from Contentful
 function fetchContentTypes () {
@@ -90,6 +102,7 @@ function fetchContentTypes () {
 
 // Load all entries for a given Content Type from Contentful
 function fetchEntriesForContentType (contentType) {
+  console.log(contentType);
   return client.getEntries({
       content_type: contentType.sys.id
     })
@@ -100,5 +113,12 @@ function fetchEntriesForContentType (contentType) {
   })
 }
 
-// Start the boilerplate code
-runBoilerplate()
+// // Start the boilerplate code
+// runBoilerplate()
+
+
+var port = process.env.PORT || 5000;
+
+app.listen(port, function(){
+  console.log('TIL server is listening on ' + port);
+});
