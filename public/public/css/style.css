@@ -1,0 +1,12 @@
+body, html {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+}
+h1,h2,h3,h4,h5,h6 {
+  font-family: 'Oswald', sans-serif;
+  margin-bottom: .25rem;
+} 
+.ui.container { padding-top: 20px; padding-bottom: 20px; margin: 0 auto;}
+.ui.segment { border:0; box-shadow: none;  }
+article{margin-bottom: 15px;}
+main { margin: 0 auto;}

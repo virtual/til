@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import Post from './post/Post'
 import './App.css';
 
+import { Container } from 'semantic-ui-react'
+
 class App extends Component {
   render() {
     return (
@@ -20,7 +22,9 @@ class App extends Component {
           </a>
         </header>
         <main>
+        <Container>
         <Post/>
+        </Container>
         </main>
         <footer>Today I learned...</footer>
       </div>

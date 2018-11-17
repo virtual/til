@@ -84,7 +84,7 @@ app.get('/posts', function(req, res, next) {
   fetchEntriesForContentType(reqtype)
   
   .then((entries) => {
-    console.log(entries)
+    // console.log(entries)
     // entries.sort()
     res.json(entries);
   });
