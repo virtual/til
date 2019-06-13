@@ -9,32 +9,39 @@ export default class Post extends Component {
       initialized: false,
       posts: []
     }
-    this.slug = undefined;
+    this.slug = this.getSlug();
     this.fetchPosts = this.fetchPosts.bind(this); 
   }
   componentDidMount() {
-    // this.getSlug();
-    this.fetchPosts(); 
+    // this.slug = 
+    this.fetchPosts(this.slug); 
   }
   getSlug() {
     let sluggyPath = window.location.pathname;
-    let sluggyReg = /(post\/)([\w\-]+)/; 
-
-    if (!(sluggyPath.match(sluggyReg))) {  
-      window.location.replace("/posts");
+    let sluggyReg = /^\/(posts\/)([\w-]*)$/; 
+    // console.log('sluggyPath', sluggyPath)
+    // console.log('sluggyReg', sluggyReg)
+    if (!(sluggyPath.match(sluggyReg))) {  // not a valid posts URL
+      
+      if (window.location.pathname !== '/posts') {
+        window.location.replace("/posts");
+      } 
+    } else {
+      var found = sluggyPath.match(sluggyReg)[2];
+      this.slug = found; // dont use state cuz it won't set
+      // console.log('found', found)
+      return found;
     }
-
-    var found = sluggyPath.match(sluggyReg)[2];
-    this.slug = found; // dont use state cuz it won't set
   }
 
 
-  fetchPosts() {
-    // var url = '/posts/'+this.slug;
-    var url = '/posts/';
+  fetchPosts(slug) { 
+    var url = '/posts';
+    if (slug) { url = '/posts/' + slug; }
     axios.get(url, { 
     }).then((PostsObj) => { 
-      console.log(PostsObj)
+      console.log('slug')
+      console.log(PostsObj.data)
       if (PostsObj.data !== undefined) { 
         this.setState({ 
           initialized: true,
@@ -51,7 +58,7 @@ export default class Post extends Component {
     let postList = []; 
     if (this.state.initialized) { 
       // let post = this.state.posts.post[0]; 
-      if (this.state.posts.length > 0) {
+      if (this.state.posts.length >= 1) {
         this.state.posts.forEach((post, i) => {
           postList.push(
             <Content key={i} 
@@ -61,7 +68,8 @@ export default class Post extends Component {
             slug={post.fields.slug} 
             metaDescription={post.fields.metaDescription} />
           );
-        });
+        }); 
+            console.log(postList)
         return (
           <div> 
           
@@ -69,10 +77,20 @@ export default class Post extends Component {
           
           </div>
         );
+      } else  if (this.state.posts.length > 1) { 
+       return (
+        <div>
+          single post
+          
+        </div>
+       )
       }
     } else {
       return(
-      <div>Loading...</div>
+      <div>
+        Loading...
+        
+        </div>
       )
     }
   }
