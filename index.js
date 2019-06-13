@@ -75,6 +75,8 @@ const client = contentful.createClient({
 //   res.send("connected!");
 // }); 
 
+// app.use( express.static( `${__dirname}/../html/build` ) );
+
 app.get('/posts', function(req, res, next) {
   var reqtype = { 
     sys: {
@@ -116,9 +118,52 @@ function fetchEntriesForContentType (contentType) {
   })
 }
 
-// // Start the boilerplate code
-// runBoilerplate()
+// Load all entries for a given Content Type from Contentful
+function fetchEntriesForSlug (contentType) {
+  console.log(contentType.fields.slug);
+  return client.getEntries({
+      // content_type: contentType.sys.id,
+      skip: 0,
+      limit: 3,
+      'content_type': contentType.sys.id,
+      'fields.slug': 'event-schema'
+      // 'fields.slug[in]': contentType.fields.slug
+      // ,
+      // order: '-fields.date'
 
+    })
+  .then((response) => response.items)
+  .catch((error) => {
+    console.log(chalk.red(`\nError occurred while fetching Entries for ${chalk.cyan(contentType.name)}:`))
+    console.error(error)
+  })
+}
+
+// this.contentfulClient.getEntries({
+//   content_type: 'YOUR_CONTENT_KEY',
+//   'fields.slug[in]': 'THE_SLUG_YOU_ARE_LOOKING_FOR',
+// })
+ 
+ 
+// Return content for single post
+app.get("/posts/:slug", function(req, res, next){
+  console.log(req.params.slug)
+  var reqtype = { 
+    sys: {
+      id: 'post'
+      // limit fields in res
+    },
+    fields: {
+      slug: req.params.slug
+    }
+  }
+  fetchEntriesForSlug(reqtype)
+  .then((entries) => {
+    // console.log(entries)
+    // entries.sort()
+    res.json(entries);
+  });
+})
 
 var port = process.env.PORT || 5000;
 
