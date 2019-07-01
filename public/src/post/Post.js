@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Content from './Content'
+import Single from './Single'
 const axios = require('axios');
 
 export default class Post extends Component {
@@ -57,8 +58,26 @@ export default class Post extends Component {
 
     let postList = []; 
     if (this.state.initialized) { 
+      if (this.state.posts.length === 1) { 
+        var post = this.state.posts[0];
+        console.log(post)
+        return (
+         <div>
+           <Single key='item0' 
+            id={post.sys.id}
+            title={post.fields.title} 
+            date={post.fields.date} 
+            slug={post.fields.slug} 
+            metaDescription={post.fields.metaDescription} 
+            entryContent={post.fields.entry.content}             
+            />
+           
+         </div>
+        ) 
+      } // end single
+  
       // let post = this.state.posts.post[0]; 
-      if (this.state.posts.length >= 1) {
+       else  if (this.state.posts.length > 1) {
         this.state.posts.forEach((post, i) => {
           postList.push(
             <Content key={i} 
@@ -77,15 +96,10 @@ export default class Post extends Component {
           
           </div>
         );
-      } else  if (this.state.posts.length > 1) { 
-       return (
-        <div>
-          single post
-          
-        </div>
-       )
-      }
-    } else {
+        } // end multi 
+      } // initialized 
+      
+      else {
       return(
       <div>
         Loading...

@@ -78,6 +78,7 @@ const client = contentful.createClient({
 // app.use( express.static( `${__dirname}/../html/build` ) );
 
 app.get('/posts', function(req, res, next) {
+  console.log('all posts')
   var reqtype = { 
     sys: {
       id: 'post'
@@ -120,13 +121,14 @@ function fetchEntriesForContentType (contentType) {
 
 // Load all entries for a given Content Type from Contentful
 function fetchEntriesForSlug (contentType) {
-  console.log(contentType.fields.slug);
+  console.log('slug',contentType.fields.slug);
   return client.getEntries({
       // content_type: contentType.sys.id,
       skip: 0,
-      limit: 3,
+      limit: 1,
       'content_type': contentType.sys.id,
-      'fields.slug': 'event-schema'
+      // 'fields.slug': 'event-schema'
+      'fields.slug': contentType.fields.slug
       // 'fields.slug[in]': contentType.fields.slug
       // ,
       // order: '-fields.date'
