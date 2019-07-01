@@ -7,19 +7,29 @@ export default class Single extends Component {
     this.props.entryContent.forEach((ec, i) => {
       console.log( ec)
       var val= [];
+
+      ec.content.forEach((elData, key) => {
+        if (elData.nodeType === 'paragraph') {
+          // console.log(elData.value)
+          val.push(<p key={'key' + key + i}>{elData.content[0].value.toString()}</p>);
+        } else if (elData.nodeType === 'hyperlink') {
+          var href = elData.data.uri;
+          val.push(<a key={'key' + key + i} href={href}>{elData.content[0].value.toString()}</a>);
+        } else {
+          val.push(elData.value);
+        }
+        
+      });
+
+
       if (ec.nodeType === 'paragraph') {
-        ec.content.forEach((elData, key) => {
-          if (elData.nodeType === 'text') {
-            // console.log(elData.value)
-            val.push(elData.value);
-          } else if (elData.nodeType === 'hyperlink') {
-            var href = elData.data.uri;
-            val.push(<a key={'key' + key + i} href={href}>{elData.content[0].value.toString()}</a>);
-          }
-          
-        });
+        
         entryContent.push(<p key={'key' + i}>{val}</p>)
       } // end p
+      else if (ec.nodeType === 'blockquote') {
+    
+        entryContent.push(<blockquote key={'key' + i}>{val}</blockquote>)
+      }
       
     });
     console.log(entryContent)

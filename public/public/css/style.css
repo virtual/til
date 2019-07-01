@@ -10,3 +10,13 @@ h1,h2,h3,h4,h5,h6 {
 .ui.segment { border:0; box-shadow: none;  }
 article{margin-bottom: 15px;}
 main { margin: 0 auto;}
+
+blockquote { 
+  font-style: italic;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  padding: .4rem .5rem;
+  margin-left: 0;
+  border-left: 4px solid rgb(133, 149, 182);
+  background-color: rgba(133, 149, 182, .1)
+}
+blockquote, blockquote p { font-size: 1.1rem; line-height: 1.5;}
