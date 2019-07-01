@@ -41,8 +41,8 @@ export default class Post extends Component {
     if (slug) { url = '/posts/' + slug; }
     axios.get(url, { 
     }).then((PostsObj) => { 
-      console.log('slug')
-      console.log(PostsObj.data)
+      // console.log('slug')
+      // console.log(PostsObj.data)
       if (PostsObj.data !== undefined) { 
         this.setState({ 
           initialized: true,
@@ -60,7 +60,7 @@ export default class Post extends Component {
     if (this.state.initialized) { 
       if (this.state.posts.length === 1) { 
         var post = this.state.posts[0];
-        console.log(post)
+        // console.log(post)
         return (
          <div>
            <Single key='item0' 
@@ -88,7 +88,7 @@ export default class Post extends Component {
             metaDescription={post.fields.metaDescription} />
           );
         }); 
-            console.log(postList)
+            // console.log(postList)
         return (
           <div> 
           
