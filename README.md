@@ -1,6 +1,6 @@
-# Contentful JavaScript boilerplate project
+# Today I Learned
 
-Boilerplate project for getting started using JavaScript with Contentful
+A project for pulling latest posts using Contentful
 
 ## Prerequisites
 
