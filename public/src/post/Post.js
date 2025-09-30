@@ -69,7 +69,7 @@ export default class Post extends Component {
             date={post.fields.date} 
             slug={post.fields.slug} 
             metaDescription={post.fields.metaDescription} 
-            entryContent={post.fields.entry.content}             
+            entryContent={post.fields.entry}             
             />
            
          </div>

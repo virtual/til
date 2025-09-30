@@ -34,3 +34,11 @@ CONTENTFUL_ACCESS_TOKEN=<accesstoken>
 `nodemon index.js` from root
 
 `npm start` from public/
+
+
+## Contentful notes
+
+Contentful's Rich Text field has an official React renderer specifically for this purpose that handles all the different node types (paragraphs, blockquotes, headings, links, etc.) 
+
+For detailed implementation guide, see: [Contentful Reference](./CONTENTFUL_RICH_TEXT_SOLUTION.md)
+
