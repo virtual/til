@@ -41,8 +41,8 @@ export default class Post extends Component {
 
 
   fetchPosts(slug) { 
-    var url = '/posts';
-    if (slug) { url = '/posts/' + slug; }
+    var url = '/api/posts';
+    if (slug) { url = '/api/posts/' + slug; }
     axios.get(url, { 
     }).then((PostsObj) => { 
       // console.log('slug')

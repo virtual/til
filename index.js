@@ -97,7 +97,7 @@ app.get("/", function(req, res, next) {
   res.sendFile(path.join(buildDir, 'index.html'));
 });
 
-app.get('/posts', function(req, res, next) {
+app.get('/api/posts', function(req, res, next) {
   console.log('all posts')
   var reqtype = { 
     sys: {
@@ -168,7 +168,7 @@ function fetchEntriesForSlug (contentType) {
  
  
 // Return content for single post
-app.get("/posts/:slug", function(req, res, next){
+app.get("/api/posts/:slug", function(req, res, next){
   console.log(req.params.slug)
   var reqtype = { 
     sys: {
