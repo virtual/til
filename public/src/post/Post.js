@@ -22,11 +22,15 @@ export default class Post extends Component {
     let sluggyReg = /^\/(posts\/)([\w-]*)$/; 
     // console.log('sluggyPath', sluggyPath)
     // console.log('sluggyReg', sluggyReg)
+    
+    // Handle root path - show all posts
+    if (sluggyPath === '/' || sluggyPath === '/posts') {
+      return null; // No slug, will fetch all posts
+    }
+    
     if (!(sluggyPath.match(sluggyReg))) {  // not a valid posts URL
-      
-      if (window.location.pathname !== '/posts') {
-        window.location.replace("/posts");
-      } 
+      // Don't redirect, just show all posts for invalid URLs
+      return null;
     } else {
       var found = sluggyPath.match(sluggyReg)[2];
       this.slug = found; // dont use state cuz it won't set

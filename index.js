@@ -4,11 +4,29 @@ let app = express();
 const contentful = require('contentful')
 const chalk = require('chalk')
 const Table = require('cli-table2')
+const path = require('path')
+const fs = require('fs')
 
 require('dotenv').config();
 
 const SPACE_ID = process.env.CONTENTFUL_SPACE_ID
 const ACCESS_TOKEN = process.env.CONTENTFUL_ACCESS_TOKEN
+
+// Determine the correct build directory based on environment
+let buildDir;
+const localBuildPath = path.join(__dirname, 'public', 'build');
+const serverBuildPath = path.join(__dirname, '..', 'html');
+
+if (fs.existsSync(localBuildPath)) {
+  buildDir = localBuildPath;
+  console.log('Using local development build directory:', buildDir);
+} else if (fs.existsSync(serverBuildPath)) {
+  buildDir = serverBuildPath;
+  console.log('Using server build directory:', buildDir);
+} else {
+  console.error('Neither build directory found. Please ensure build files exist.');
+  buildDir = localBuildPath; // fallback
+}
 
 const client = contentful.createClient({
   // This is the space ID. A space is like a project folder in Contentful terms
@@ -71,11 +89,13 @@ const client = contentful.createClient({
 //   }))
 // }
 
-// app.get("/", function(req, res, next) {
-//   res.send("connected!");
-// }); 
+// Serve static files from the React build
+app.use(express.static(buildDir));
 
-// app.use( express.static( `${__dirname}/../html/build` ) );
+// Serve the React app for the root route
+app.get("/", function(req, res, next) {
+  res.sendFile(path.join(buildDir, 'index.html'));
+});
 
 app.get('/posts', function(req, res, next) {
   console.log('all posts')
@@ -167,8 +187,15 @@ app.get("/posts/:slug", function(req, res, next){
   });
 })
 
+// Catch-all handler: send back React's index.html file for client-side routing
+app.get('*', (req, res) => {
+  res.sendFile(path.join(buildDir, 'index.html'));
+});
+
 var port = process.env.PORT || 5000;
 
+//app.listen(port, '165.227.114.90', function(){
 app.listen(port, function(){
   console.log('TIL server is listening on ' + port);
+  console.log(`${__dirname}`);
 });
